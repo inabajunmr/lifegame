@@ -5,8 +5,8 @@ var run = false;
 function init(){
 
 	var areaHTML = "";
-	for(var h = 1; h <= max; h++){
-		for(var v = 1; v <= max; v++){
+	for(var h = 0; h < max; h++){
+		for(var v = 0; v < max; v++){
 			var id = h + "_" + v;
 			areaHTML = areaHTML + "<input type='radio' id='" + id + "'>"	
 
@@ -21,7 +21,7 @@ function init(){
 
 function execute(){
 	run = true;
-	loop(1, 1);
+	loop(0, 0);
 }
 
 //test
@@ -33,8 +33,17 @@ function loop(i, j){
 	var radioId = i + "_" + j;
 	checkRadio(radioId);
 
+	j = j + 1;
+	if(j == max){
+		i = i + 1;
+		j = 0;
+	}
 
-	setTimeout("loop2()", speed);
+	if(i == max){
+		i = 0;
+	}
+
+	setTimeout("loop(" + i + "," + j + ")", speed);
 }
 
 //lifegame
@@ -54,7 +63,7 @@ function loop2(){
 	//これを繰り返し
 
 
-	setTimeout("loop(" + i + "," + j + ")", speed);
+	setTimeout("loop2()", speed);
 }
 
 function checkRadio(id){
@@ -62,6 +71,7 @@ function checkRadio(id){
 }
 
 function reset(){
-	//TODO
+	run = false;
+	init();
 }
 
