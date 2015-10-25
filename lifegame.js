@@ -100,7 +100,7 @@ function loop2(elements){
 		var spermRow = [];
 		for(var h = 0; h < max; h++){
 			//対象セル周りの生死をカウント
-//			var count = sumAdjacentLiveCell(elements, v, h);
+			var count = sumAdjacentLiveCell(elements, v, h);
 //			console.log(v + "_" + h + ":" + count);
 			if(count == 3){
 				//生存
