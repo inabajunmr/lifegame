@@ -1,4 +1,4 @@
-var max = 50;
+var max = 30;
 var speed = 200;
 var run = false;
 
@@ -71,12 +71,12 @@ function execute2(){
 //	}
 }
 
-var test = 0;
+//var test = 0;
 
 //lifegame
 function loop2(elements){
-	console.log("count:" + test++);
-	console.log(elements);
+//	console.log("count:" + test++);
+//	console.log(elements);
 
 	if(!run){
 		return;
@@ -100,8 +100,8 @@ function loop2(elements){
 		var spermRow = [];
 		for(var h = 0; h < max; h++){
 			//対象セル周りの生死をカウント
-			var count = sumAdjacentLiveCell(elements, v, h);
-			console.log(v + "_" + h + ":" + count);
+//			var count = sumAdjacentLiveCell(elements, v, h);
+//			console.log(v + "_" + h + ":" + count);
 			if(count == 3){
 				//生存
 				spermRow.push(true);
