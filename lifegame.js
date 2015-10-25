@@ -17,6 +17,7 @@ function init(){
 
 	document.getElementById("area").innerHTML = areaHTML;
 
+
 }
 
 function execute(){
@@ -46,8 +47,26 @@ function loop(i, j){
 	setTimeout("loop(" + i + "," + j + ")", speed);
 }
 
+
+function execute2(){
+	//2重配列にラジオボタンを全部入れる
+	var elements = [];
+
+	for(var h = 0; h < max; h++){
+		var row = [];
+		for(var v = 0; v < max; v++){
+			var id = h + "_" + v;
+			row[v] = document.getElementById(id);
+		}
+		elements[h] = row;
+	}
+
+	run = true;
+	loop2(elements);
+}
+
 //lifegame
-function loop2(){
+function loop2(elements){
 	if(!run){
 		return;
 	}
@@ -62,8 +81,58 @@ function loop2(){
 	//全マス見たらBを一周しながらAのON、OFFをきりかえる
 	//これを繰り返し
 
+	//生死
+	var sperms = [];
 
-	setTimeout("loop2()", speed);
+	//全部見て何するかはコールバックみたいにできんのかな・・？//TODO
+	for(var v = 0; v < max; v++){
+		for(var h = 0; h < max; h++){
+			//対象セル周りの生死をカウント
+			var count = sumAdjacentLiveCell(elements, v, h);
+			if(count == 3){
+				//生存
+				
+			}else if(count == 2){
+				//現存維持
+			}else{
+				//死滅
+			}
+		}
+
+		areaHTML = areaHTML + "<br/>"	
+	}
+
+
+	setTimeout("loop2('elements')", speed);
+}
+
+//隣接するセルで生きているセルをカウントして返却する
+function sumAdjacentLiveCell(elements, v, h){
+	//v=行数 h=列数
+
+	var minv = v == 0; //上にはみだす
+	var minh = h == 0; //左にはみだす
+	var maxv = v == max - 1; //下にはみだす
+	var maxh = h == max - 1; //右にはみだす
+
+
+	var cells = [];
+	if(!minv && !minh) cells.push([v-1,h-1]);//左上
+	if(!minv) cells.push([v-1,h]);  //真上
+	if(!minv && !maxh) cells.push([v-1,h+1]);//右上
+
+	if(!minh) cells.push([v,h-1]); //左
+	if(!maxh) cells.push([v,h+1]); //右
+
+	if(!maxv && !minh) cells.push([v+1,h-1]);//左下
+	if(!maxv) cells.push([v+1,h]);  //真下
+	if(!maxv && !maxh) cells.push([v+1,h+1]);//右下
+
+	var count = 0;
+	for(var i = 0; i < cells.length; i++){
+		if (elements[cells[i][0]][cells[i][1]].checked) count = count + 1;
+	}
+	return count;
 }
 
 function checkRadio(id){
