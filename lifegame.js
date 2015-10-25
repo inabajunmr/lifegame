@@ -1,5 +1,5 @@
-var max = 5;
-var speed = 500;
+var max = 50;
+var speed = 200;
 var run = false;
 
 function init(){
@@ -107,7 +107,7 @@ function loop2(elements){
 				spermRow.push(true);
 			}else if(count == 2){
 				//現存維持
-				spermRow.push(elements[v,h].checked);
+				spermRow.push(elements[v][h].checked);
 			}else{
 				//死滅
 				spermRow.push(false);
@@ -119,10 +119,9 @@ function loop2(elements){
 	redraw(elements, sperms);
 
 
-//debug
-//	setTimeout( function(value){
-//		loop2(value);
-//	},speed, elements);
+	setTimeout( function(value){
+		loop2(value);
+	},speed, elements);
 }
 
 //生死に合わせて画面を再描画する
