@@ -1,5 +1,5 @@
-var max = 30;
-var speed = 200;
+var max = 25;
+var speed = 100;
 var run = false;
 
 function init(){
