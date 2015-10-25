@@ -1,5 +1,5 @@
 var max = 5;
-var speed = 100;
+var speed = 500;
 var run = false;
 
 function init(){
@@ -62,11 +62,22 @@ function execute2(){
 	}
 
 	run = true;
+
+//debug
 	loop2(elements);
+//	while(true){
+//		alert("next");
+//		loop2(elements);
+//	}
 }
+
+var test = 0;
 
 //lifegame
 function loop2(elements){
+	console.log("count:" + test++);
+	console.log(elements);
+
 	if(!run){
 		return;
 	}
@@ -81,29 +92,46 @@ function loop2(elements){
 	//全マス見たらBを一周しながらAのON、OFFをきりかえる
 	//これを繰り返し
 
-	//生死
+	//生死（生きてればture, 死んでればfalse）
 	var sperms = [];
 
 	//全部見て何するかはコールバックみたいにできんのかな・・？//TODO
 	for(var v = 0; v < max; v++){
+		var spermRow = [];
 		for(var h = 0; h < max; h++){
 			//対象セル周りの生死をカウント
 			var count = sumAdjacentLiveCell(elements, v, h);
+			console.log(v + "_" + h + ":" + count);
 			if(count == 3){
 				//生存
-				
+				spermRow.push(true);
 			}else if(count == 2){
 				//現存維持
+				spermRow.push(elements[v,h].checked);
 			}else{
 				//死滅
+				spermRow.push(false);
 			}
 		}
-
-		areaHTML = areaHTML + "<br/>"	
+		sperms.push(spermRow);
 	}
 
+	redraw(elements, sperms);
 
-	setTimeout("loop2('elements')", speed);
+
+//debug
+//	setTimeout( function(value){
+//		loop2(value);
+//	},speed, elements);
+}
+
+//生死に合わせて画面を再描画する
+function redraw(elements, sperms){
+	for(var v = 0; v < max; v++){
+		for(var h = 0; h < max; h++){
+			elements[v][h].checked = sperms[v][h];
+		}
+	}
 }
 
 //隣接するセルで生きているセルをカウントして返却する
