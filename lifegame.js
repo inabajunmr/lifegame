@@ -1,4 +1,4 @@
-var max = 25;
+var max = 15;
 var speed = 100;
 var run = false;
 
@@ -48,6 +48,7 @@ function loop(i, j){
 }
 
 
+var context = new AudioContext();
 function execute2(){
 	//2重配列にラジオボタンを全部入れる
 	var elements = [];
@@ -61,26 +62,23 @@ function execute2(){
 		elements[h] = row;
 	}
 
+
 	run = true;
 
-//debug
-	loop2(elements);
-//	while(true){
-//		alert("next");
-//		loop2(elements);
-//	}
+	loop2(elements, context);
 }
 
 //var test = 0;
 
 //lifegame
-function loop2(elements){
+function loop2(elements, context){
 //	console.log("count:" + test++);
 //	console.log(elements);
 
 	if(!run){
 		return;
 	}
+
 
 	//最初に全エレメントが入ってる２重配列作る　・・・　A
 	//次にどうなるか用の２重配列作る　・・・　B
@@ -91,6 +89,8 @@ function loop2(elements){
 	// 4. 1に戻る
 	//全マス見たらBを一周しながらAのON、OFFをきりかえる
 	//これを繰り返し
+	//音出す
+	ring(elements, context);
 
 	//生死（生きてればture, 死んでればfalse）
 	var sperms = [];
@@ -118,10 +118,9 @@ function loop2(elements){
 
 	redraw(elements, sperms);
 
-
-	setTimeout( function(value){
-		loop2(value);
-	},speed, elements);
+	setTimeout( function(value, value2){
+		loop2(value, value2);
+	},speed, elements,context);
 }
 
 //生死に合わせて画面を再描画する
@@ -171,3 +170,39 @@ function reset(){
 	init();
 }
 
+function ring(elements, context){
+
+	for(var vvv = 0; vvv < max; vvv++){
+		for(var hhh = 0; hhh < max; hhh++){
+			if(elements[vvv][hhh].checked){
+
+				//音程はここで決まる
+				var os = createOsillator(context, hhh * vvv * 10);
+				function vvvvv(os){
+
+					os.start(0);
+					console.log(os.frequency.value);
+					//ここは速度に依存
+					window.setTimeout(function(value) {
+					    value.stop(0);
+					}, 150, os);
+				}
+				vvvvv(os);
+			}
+		}
+	}
+}
+
+function createOsillator(context, frequency){
+	var oscillator = context.createOscillator();
+	oscillator.type = (typeof oscillator.type === 'string') ? 'sine' : 0;
+	oscillator.frequency.value = frequency;
+
+	var gain = context.createGain();
+	oscillator.connect(gain);
+	gain.connect(context.destination);
+
+
+	return oscillator;
+
+}
