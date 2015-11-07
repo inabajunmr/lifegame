@@ -1,5 +1,5 @@
 var max = 15;
-var speed = 100;
+var speed = 250;
 var run = false;
 
 function init(){
@@ -108,7 +108,7 @@ function loop2(elements, context){
 			}else if(count == 2){
 				//現存維持
 				spermRow.push(elements[v][h].checked);
-			}else{
+			}else{	
 				//死滅
 				spermRow.push(false);
 			}
@@ -185,7 +185,7 @@ function ring(elements, context){
 					//ここは速度に依存
 					window.setTimeout(function(value) {
 					    value.stop(0);
-					}, 150, os);
+					}, 300, os);
 				}
 				vvvvv(os);
 			}
@@ -199,6 +199,10 @@ function createOsillator(context, frequency){
 	oscillator.frequency.value = frequency;
 
 	var gain = context.createGain();
+	gain.gain.setValueAtTime(0.25, context.currentTime);
+	gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.65);
+
+
 	oscillator.connect(gain);
 	gain.connect(context.destination);
 
