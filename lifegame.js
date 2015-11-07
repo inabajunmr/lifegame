@@ -1,5 +1,5 @@
 var max = 15;
-var speed = 150;
+var speed = 60;
 var run = false;
 
 function init(){
@@ -8,7 +8,7 @@ function init(){
 	for(var h = 0; h < max; h++){
 		for(var v = 0; v < max; v++){
 			var id = h + "_" + v;
-			areaHTML = areaHTML + "<input type='checkbox' id='" + id + "'>"	
+			areaHTML = areaHTML + "<input type='checkbox' id='" + id + "'><label for='" + id + "'class='checkbox'></label>"	
 
 		}
 
@@ -17,38 +17,9 @@ function init(){
 
 	document.getElementById("area").innerHTML = areaHTML;
 
-
 }
 
 function execute(){
-	run = true;
-	loop(0, 0);
-}
-
-//test
-function loop(i, j){
-	if(!run){
-		return;
-	}
-
-	var radioId = i + "_" + j;
-	checkRadio(radioId);
-
-	j = j + 1;
-	if(j == max){
-		i = i + 1;
-		j = 0;
-	}
-
-	if(i == max){
-		i = 0;
-	}
-
-	setTimeout("loop(" + i + "," + j + ")", speed);
-}
-
-
-function execute2(){
 	if(run){
 		return;
 	}
@@ -67,20 +38,15 @@ function execute2(){
 
 	run = true;
 
-	loop2(elements, context);
+	loop(elements, context);
 }
 
-//var test = 0;
-
 //lifegame
-function loop2(elements, context){
-//	console.log("count:" + test++);
-//	console.log(elements);
+function loop(elements, context){
 
 	if(!run){
 		return;
 	}
-
 
 	//最初に全エレメントが入ってる２重配列作る　・・・　A
 	//次にどうなるか用の２重配列作る　・・・　B
@@ -121,7 +87,7 @@ function loop2(elements, context){
 	redraw(elements, sperms);
 
 	setTimeout( function(value, value2){
-		loop2(value, value2);
+		loop(value, value2);
 	},speed, elements,context);
 }
 
@@ -142,7 +108,6 @@ function sumAdjacentLiveCell(elements, v, h){
 	var minh = h == 0; //左にはみだす
 	var maxv = v == max - 1; //下にはみだす
 	var maxh = h == max - 1; //右にはみだす
-
 
 	var cells = [];
 	if(!minv && !minh) cells.push([v-1,h-1]);//左上
