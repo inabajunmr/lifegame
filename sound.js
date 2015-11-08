@@ -7,7 +7,11 @@ function ring(elements, context){
 			if(elements[vvv][hhh].checked){
 
 				//音程はここで決まる
-				var os = createOsillator(context, hhh * vvv * 80);
+
+				var os = createOsillator(context, hhh * vvv  * 80);
+				if(hhh > 15){
+					var os = createOsillator(context, hhh　- 14 * vvv  * 80);
+				}
 				function vvvvv(os){
 
 					os.start(0);
