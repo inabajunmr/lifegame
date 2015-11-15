@@ -1,6 +1,12 @@
-var max = 25;
-var speed = 80;
+var max = 20;
+var speed = 100;
 var run = false;
+
+var volume = 50;
+function changeSpeed(value) {
+	speed = 610 - value; 
+}
+
 
 function init(){
 
